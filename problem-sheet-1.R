@@ -119,3 +119,31 @@ lines(extinction_newton(1.1, 0.2)$trajectory , type="o", pch=16, col="red")
 legend("bottomright", legend = c("Functional Iteration, Newton-Raphson"),
        col = c('blue','red'), lty = 1)
 abline(h = extinction_newton(1.1, 0.2)$final, col='green')
+
+#Question 4
+#Minimising negative likelihood
+steepest_descent <- function(data, df, lr= 0.01, mu_init = 0, epsilon = 0.0001, max_iter = 100){
+  n <- length(data)
+  
+  mu <- mu_init
+  mu_new <- mu_init
+  
+  for (t in 1:max_iter){
+    mu_new <- mu - lr*df(mu)
+    
+    if (abs(mu_new - mu) < epsilon){
+      return (mu_new)
+    }
+    
+    mu <- mu_new
+  }
+  
+  return (mu)
+}
+data <- c(-3,1,5,2,15,20)
+dlog_like <- function(mu) return (- sum(data - mu))
+steepest_descent(data, dlog_like)
+
+fisher_estimator <- function(logf){
+  
+}
